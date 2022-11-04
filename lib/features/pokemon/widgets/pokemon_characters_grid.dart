@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:pokedex/features/pokemon/widgets/widgets.dart';
+import 'package:pokedex/features/pokemon_details/views/pokemon_details_screen.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,16 @@ class PokemonCharactersGrid extends StatelessWidget {
                     randomColors[Random().nextInt(3)].withOpacity(.1);
                 return PokemonCharacterCard(
                   cardColor: cardColor,
-                  onPokemonTapped: () {},
+                  onPokemonTapped: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => PokemonDetailsScreen(
+                          color: cardColor,
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
               childCount: 10,

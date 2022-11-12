@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bayzat Assessment',
+      title: 'Pokedex',
       debugShowCheckedModeBanner: false,
       theme: pokedexTheme,
       home: Builder(

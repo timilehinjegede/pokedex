@@ -1,5 +1,3 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex/core/repository/pokemon_repository.dart';
 import 'package:pokedex/features/pokemons/widgets/widgets.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:pokedex/widgets/widgets.dart';
@@ -23,7 +21,6 @@ class _AllPokemonsScreenState extends State<AllPokemonsScreen> {
     super.initState();
 
     _scrollController.addListener(_onScroll);
-    context.read<PokemonRepository>().getPokemonById(1);
   }
 
   @override

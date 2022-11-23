@@ -1,4 +1,4 @@
-import 'package:pokedex/features/pokemon/views/all_pokemons_screen.dart';
+import 'package:pokedex/features/pokemons/views/all_pokemons_screen.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

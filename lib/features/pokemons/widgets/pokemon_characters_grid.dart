@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:pokedex/features/pokemon/widgets/widgets.dart';
+import 'package:pokedex/features/pokemons/widgets/widgets.dart';
 import 'package:pokedex/features/pokemon_details/views/pokemon_details_screen.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:flutter/material.dart';

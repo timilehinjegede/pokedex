@@ -1,1 +1,1 @@
-enum PokemonStates { initial, loading, success, failure }
+enum PokemonStatus { initial, loading, success, failure }

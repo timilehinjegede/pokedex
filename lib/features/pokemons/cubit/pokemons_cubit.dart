@@ -4,13 +4,13 @@ import 'package:pokedex/core/models/pokemon_model.dart';
 import 'package:pokedex/core/repository/pokemon_repository.dart';
 import 'package:pokedex/utils/utils.dart';
 
-part 'pokemon_details_state.dart';
-part 'pokemon_details_cubit.freezed.dart';
+part 'pokemons_state.dart';
+part 'pokemons_cubit.freezed.dart';
 
-class PokemonDetailsCubit extends Cubit<PokemonDetailsState> {
-  PokemonDetailsCubit(this.pokemonRepository)
+class PokemonsCubit extends Cubit<PokemonsState> {
+  PokemonsCubit(this.pokemonRepository)
       : super(
-          const PokemonDetailsState(status: PokemonStatus.initial),
+          const PokemonsState(status: PokemonStatus.initial),
         );
 
   final PokemonRepository pokemonRepository;
@@ -19,12 +19,13 @@ class PokemonDetailsCubit extends Cubit<PokemonDetailsState> {
     emit(state.copyWith(status: PokemonStatus.loading));
 
     try {
-      final pokemonModel = await pokemonRepository.getPokemonById(id);
+      final pokemonList = await pokemonRepository.getPokemons();
 
       emit(
         state.copyWith(
           status: PokemonStatus.success,
-          pokemonModel: pokemonModel,
+          pokemons: pokemonList.pokemons,
+          hasReachedMax: pokemonList.next != null,
         ),
       );
     } catch (e) {

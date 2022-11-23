@@ -20,14 +20,15 @@ PokemonModel _$PokemonModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PokemonModel {
-  String? get url => throw _privateConstructorUsedError;
-  int get height => throw _privateConstructorUsedError;
-  int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  int get weight => throw _privateConstructorUsedError;
-  Sprites get sprites => throw _privateConstructorUsedError;
+  String? get url => throw _privateConstructorUsedError;
+  int? get height => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
+  int? get weight => throw _privateConstructorUsedError;
+  Sprites? get sprites => throw _privateConstructorUsedError;
   List<Type> get types => throw _privateConstructorUsedError;
   List<StatElement> get stats => throw _privateConstructorUsedError;
+  bool get isFavourite => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,16 +43,17 @@ abstract class $PokemonModelCopyWith<$Res> {
       _$PokemonModelCopyWithImpl<$Res, PokemonModel>;
   @useResult
   $Res call(
-      {String? url,
-      int height,
-      int id,
-      String name,
-      int weight,
-      Sprites sprites,
+      {String name,
+      String? url,
+      int? height,
+      int? id,
+      int? weight,
+      Sprites? sprites,
       List<Type> types,
-      List<StatElement> stats});
+      List<StatElement> stats,
+      bool isFavourite});
 
-  $SpritesCopyWith<$Res> get sprites;
+  $SpritesCopyWith<$Res>? get sprites;
 }
 
 /// @nodoc
@@ -67,40 +69,41 @@ class _$PokemonModelCopyWithImpl<$Res, $Val extends PokemonModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? url = freezed,
-    Object? height = null,
-    Object? id = null,
     Object? name = null,
-    Object? weight = null,
-    Object? sprites = null,
+    Object? url = freezed,
+    Object? height = freezed,
+    Object? id = freezed,
+    Object? weight = freezed,
+    Object? sprites = freezed,
     Object? types = null,
     Object? stats = null,
+    Object? isFavourite = null,
   }) {
     return _then(_value.copyWith(
-      url: freezed == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String?,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      weight: null == weight
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
+      height: freezed == height
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int?,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      weight: freezed == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
-              as int,
-      sprites: null == sprites
+              as int?,
+      sprites: freezed == sprites
           ? _value.sprites
           : sprites // ignore: cast_nullable_to_non_nullable
-              as Sprites,
+              as Sprites?,
       types: null == types
           ? _value.types
           : types // ignore: cast_nullable_to_non_nullable
@@ -109,13 +112,21 @@ class _$PokemonModelCopyWithImpl<$Res, $Val extends PokemonModel>
           ? _value.stats
           : stats // ignore: cast_nullable_to_non_nullable
               as List<StatElement>,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $SpritesCopyWith<$Res> get sprites {
-    return $SpritesCopyWith<$Res>(_value.sprites, (value) {
+  $SpritesCopyWith<$Res>? get sprites {
+    if (_value.sprites == null) {
+      return null;
+    }
+
+    return $SpritesCopyWith<$Res>(_value.sprites!, (value) {
       return _then(_value.copyWith(sprites: value) as $Val);
     });
   }
@@ -130,17 +141,18 @@ abstract class _$$_PokemonModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? url,
-      int height,
-      int id,
-      String name,
-      int weight,
-      Sprites sprites,
+      {String name,
+      String? url,
+      int? height,
+      int? id,
+      int? weight,
+      Sprites? sprites,
       List<Type> types,
-      List<StatElement> stats});
+      List<StatElement> stats,
+      bool isFavourite});
 
   @override
-  $SpritesCopyWith<$Res> get sprites;
+  $SpritesCopyWith<$Res>? get sprites;
 }
 
 /// @nodoc
@@ -154,40 +166,41 @@ class __$$_PokemonModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? url = freezed,
-    Object? height = null,
-    Object? id = null,
     Object? name = null,
-    Object? weight = null,
-    Object? sprites = null,
+    Object? url = freezed,
+    Object? height = freezed,
+    Object? id = freezed,
+    Object? weight = freezed,
+    Object? sprites = freezed,
     Object? types = null,
     Object? stats = null,
+    Object? isFavourite = null,
   }) {
     return _then(_$_PokemonModel(
-      url: freezed == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String?,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      weight: null == weight
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
+      height: freezed == height
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int?,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      weight: freezed == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
-              as int,
-      sprites: null == sprites
+              as int?,
+      sprites: freezed == sprites
           ? _value.sprites
           : sprites // ignore: cast_nullable_to_non_nullable
-              as Sprites,
+              as Sprites?,
       types: null == types
           ? _value._types
           : types // ignore: cast_nullable_to_non_nullable
@@ -196,40 +209,46 @@ class __$$_PokemonModelCopyWithImpl<$Res>
           ? _value._stats
           : stats // ignore: cast_nullable_to_non_nullable
               as List<StatElement>,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_PokemonModel implements _PokemonModel {
+class _$_PokemonModel extends _PokemonModel {
   const _$_PokemonModel(
-      {this.url,
+      {required this.name,
+      required this.url,
       required this.height,
       required this.id,
-      required this.name,
       required this.weight,
       required this.sprites,
       final List<Type> types = const [],
-      final List<StatElement> stats = const []})
+      final List<StatElement> stats = const [],
+      this.isFavourite = false})
       : _types = types,
-        _stats = stats;
+        _stats = stats,
+        super._();
 
   factory _$_PokemonModel.fromJson(Map<String, dynamic> json) =>
       _$$_PokemonModelFromJson(json);
 
   @override
-  final String? url;
-  @override
-  final int height;
-  @override
-  final int id;
-  @override
   final String name;
   @override
-  final int weight;
+  final String? url;
   @override
-  final Sprites sprites;
+  final int? height;
+  @override
+  final int? id;
+  @override
+  final int? weight;
+  @override
+  final Sprites? sprites;
   final List<Type> _types;
   @override
   @JsonKey()
@@ -247,8 +266,12 @@ class _$_PokemonModel implements _PokemonModel {
   }
 
   @override
+  @JsonKey()
+  final bool isFavourite;
+
+  @override
   String toString() {
-    return 'PokemonModel(url: $url, height: $height, id: $id, name: $name, weight: $weight, sprites: $sprites, types: $types, stats: $stats)';
+    return 'PokemonModel(name: $name, url: $url, height: $height, id: $id, weight: $weight, sprites: $sprites, types: $types, stats: $stats, isFavourite: $isFavourite)';
   }
 
   @override
@@ -256,28 +279,31 @@ class _$_PokemonModel implements _PokemonModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PokemonModel &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.sprites, sprites) || other.sprites == sprites) &&
             const DeepCollectionEquality().equals(other._types, _types) &&
-            const DeepCollectionEquality().equals(other._stats, _stats));
+            const DeepCollectionEquality().equals(other._stats, _stats) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      name,
       url,
       height,
       id,
-      name,
       weight,
       sprites,
       const DeepCollectionEquality().hash(_types),
-      const DeepCollectionEquality().hash(_stats));
+      const DeepCollectionEquality().hash(_stats),
+      isFavourite);
 
   @JsonKey(ignore: true)
   @override
@@ -293,36 +319,40 @@ class _$_PokemonModel implements _PokemonModel {
   }
 }
 
-abstract class _PokemonModel implements PokemonModel {
+abstract class _PokemonModel extends PokemonModel {
   const factory _PokemonModel(
-      {final String? url,
-      required final int height,
-      required final int id,
-      required final String name,
-      required final int weight,
-      required final Sprites sprites,
+      {required final String name,
+      required final String? url,
+      required final int? height,
+      required final int? id,
+      required final int? weight,
+      required final Sprites? sprites,
       final List<Type> types,
-      final List<StatElement> stats}) = _$_PokemonModel;
+      final List<StatElement> stats,
+      final bool isFavourite}) = _$_PokemonModel;
+  const _PokemonModel._() : super._();
 
   factory _PokemonModel.fromJson(Map<String, dynamic> json) =
       _$_PokemonModel.fromJson;
 
   @override
-  String? get url;
-  @override
-  int get height;
-  @override
-  int get id;
-  @override
   String get name;
   @override
-  int get weight;
+  String? get url;
   @override
-  Sprites get sprites;
+  int? get height;
+  @override
+  int? get id;
+  @override
+  int? get weight;
+  @override
+  Sprites? get sprites;
   @override
   List<Type> get types;
   @override
   List<StatElement> get stats;
+  @override
+  bool get isFavourite;
   @override
   @JsonKey(ignore: true)
   _$$_PokemonModelCopyWith<_$_PokemonModel> get copyWith =>

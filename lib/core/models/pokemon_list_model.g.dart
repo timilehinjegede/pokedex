@@ -11,7 +11,7 @@ _$_PokemonListModel _$$_PokemonListModelFromJson(Map<String, dynamic> json) =>
       count: json['count'] as int,
       next: json['next'] as String?,
       previous: json['previous'] as String?,
-      pokemons: (json['pokemons'] as List<dynamic>)
+      pokemons: (json['results'] as List<dynamic>)
           .map((e) => PokemonModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -21,5 +21,5 @@ Map<String, dynamic> _$$_PokemonListModelToJson(_$_PokemonListModel instance) =>
       'count': instance.count,
       'next': instance.next,
       'previous': instance.previous,
-      'pokemons': instance.pokemons,
+      'results': instance.pokemons,
     };

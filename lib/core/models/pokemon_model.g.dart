@@ -8,12 +8,14 @@ part of 'pokemon_model.dart';
 
 _$_PokemonModel _$$_PokemonModelFromJson(Map<String, dynamic> json) =>
     _$_PokemonModel(
-      url: json['url'] as String?,
-      height: json['height'] as int,
-      id: json['id'] as int,
       name: json['name'] as String,
-      weight: json['weight'] as int,
-      sprites: Sprites.fromJson(json['sprites'] as Map<String, dynamic>),
+      url: json['url'] as String?,
+      height: json['height'] as int?,
+      id: json['id'] as int?,
+      weight: json['weight'] as int?,
+      sprites: json['sprites'] == null
+          ? null
+          : Sprites.fromJson(json['sprites'] as Map<String, dynamic>),
       types: (json['types'] as List<dynamic>?)
               ?.map((e) => Type.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -22,18 +24,20 @@ _$_PokemonModel _$$_PokemonModelFromJson(Map<String, dynamic> json) =>
               ?.map((e) => StatElement.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      isFavourite: json['isFavourite'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_PokemonModelToJson(_$_PokemonModel instance) =>
     <String, dynamic>{
+      'name': instance.name,
       'url': instance.url,
       'height': instance.height,
       'id': instance.id,
-      'name': instance.name,
       'weight': instance.weight,
       'sprites': instance.sprites,
       'types': instance.types,
       'stats': instance.stats,
+      'isFavourite': instance.isFavourite,
     };
 
 _$_Sprites _$$_SpritesFromJson(Map<String, dynamic> json) => _$_Sprites(

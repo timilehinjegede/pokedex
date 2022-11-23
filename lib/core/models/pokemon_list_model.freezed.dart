@@ -23,6 +23,7 @@ mixin _$PokemonListModel {
   int get count => throw _privateConstructorUsedError;
   String? get next => throw _privateConstructorUsedError;
   String? get previous => throw _privateConstructorUsedError;
+  @JsonKey(name: 'results')
   List<PokemonModel> get pokemons => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +39,10 @@ abstract class $PokemonListModelCopyWith<$Res> {
       _$PokemonListModelCopyWithImpl<$Res, PokemonListModel>;
   @useResult
   $Res call(
-      {int count, String? next, String? previous, List<PokemonModel> pokemons});
+      {int count,
+      String? next,
+      String? previous,
+      @JsonKey(name: 'results') List<PokemonModel> pokemons});
 }
 
 /// @nodoc
@@ -89,7 +93,10 @@ abstract class _$$_PokemonListModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int count, String? next, String? previous, List<PokemonModel> pokemons});
+      {int count,
+      String? next,
+      String? previous,
+      @JsonKey(name: 'results') List<PokemonModel> pokemons});
 }
 
 /// @nodoc
@@ -136,7 +143,7 @@ class _$_PokemonListModel implements _PokemonListModel {
       {required this.count,
       this.next,
       this.previous,
-      required final List<PokemonModel> pokemons})
+      @JsonKey(name: 'results') required final List<PokemonModel> pokemons})
       : _pokemons = pokemons;
 
   factory _$_PokemonListModel.fromJson(Map<String, dynamic> json) =>
@@ -150,6 +157,7 @@ class _$_PokemonListModel implements _PokemonListModel {
   final String? previous;
   final List<PokemonModel> _pokemons;
   @override
+  @JsonKey(name: 'results')
   List<PokemonModel> get pokemons {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_pokemons);
@@ -196,7 +204,8 @@ abstract class _PokemonListModel implements PokemonListModel {
       {required final int count,
       final String? next,
       final String? previous,
-      required final List<PokemonModel> pokemons}) = _$_PokemonListModel;
+      @JsonKey(name: 'results')
+          required final List<PokemonModel> pokemons}) = _$_PokemonListModel;
 
   factory _PokemonListModel.fromJson(Map<String, dynamic> json) =
       _$_PokemonListModel.fromJson;
@@ -208,6 +217,7 @@ abstract class _PokemonListModel implements PokemonListModel {
   @override
   String? get previous;
   @override
+  @JsonKey(name: 'results')
   List<PokemonModel> get pokemons;
   @override
   @JsonKey(ignore: true)

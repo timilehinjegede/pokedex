@@ -20,7 +20,8 @@ class PokemonApi {
       return PokemonListModel.fromJson(
         jsonDecode(response.body),
       );
-    } catch (_) {
+    } catch (e) {
+      log('e is $e');
       throw Exception('Unable to fetch pokemons.');
     }
   }

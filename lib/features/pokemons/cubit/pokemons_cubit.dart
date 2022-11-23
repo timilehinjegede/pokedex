@@ -15,7 +15,7 @@ class PokemonsCubit extends Cubit<PokemonsState> {
 
   final PokemonRepository pokemonRepository;
 
-  Future<void> getPokemonById(int id) async {
+  Future<void> getPokemons() async {
     emit(state.copyWith(status: PokemonStatus.loading));
 
     try {

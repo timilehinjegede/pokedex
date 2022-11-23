@@ -1,3 +1,4 @@
+import 'package:pokedex/core/models/pokemon_model.dart';
 import 'package:pokedex/utils/strings.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:pokedex/widgets/network_image_widget.dart';
@@ -6,10 +7,12 @@ import 'package:flutter/material.dart';
 class PokemonCharacterCard extends StatelessWidget {
   const PokemonCharacterCard({
     super.key,
+    required this.pokemonModel,
     required this.onPokemonTapped,
     required this.cardColor,
   });
 
+  final PokemonModel pokemonModel;
   final VoidCallback onPokemonTapped;
   final Color cardColor;
 
@@ -27,14 +30,14 @@ class PokemonCharacterCard extends StatelessWidget {
           children: [
             Flexible(
               child: Hero(
-                tag: '${pokemonImageHeroTag}1',
+                tag: '$pokemonImageHeroTag ${pokemonModel.pokemonNumber}',
                 child: Container(
                   decoration: BoxDecoration(
                     color: cardColor,
                   ),
-                  child: const Center(
+                  child: Center(
                     child: NetworkImageWidget(
-                      imageUrl: '',
+                      imageUrl: pokemonModel.image,
                     ),
                   ),
                 ),
@@ -49,7 +52,7 @@ class PokemonCharacterCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '#001',
+                    '#${pokemonModel.pokemonNumber.toString().padLeft(3, '0')}',
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: pokedexColors.grey,
@@ -57,7 +60,7 @@ class PokemonCharacterCard extends StatelessWidget {
                   ),
                   YBox(2.dy),
                   Text(
-                    'Bulbasaur',
+                    pokemonModel.name,
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,

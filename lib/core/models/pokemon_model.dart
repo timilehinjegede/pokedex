@@ -5,19 +5,35 @@ part 'pokemon_model.g.dart';
 
 @freezed
 class PokemonModel with _$PokemonModel {
+  const PokemonModel._();
+
   const factory PokemonModel({
-    String? url,
-    required int height,
-    required int id,
     required String name,
-    required int weight,
-    required Sprites sprites,
+    required String? url,
+    required int? height,
+    required int? id,
+    required int? weight,
+    required Sprites? sprites,
     @Default([]) List<Type> types,
     @Default([]) List<StatElement> stats,
+    @Default(false) bool isFavourite,
   }) = _PokemonModel;
 
   factory PokemonModel.fromJson(Map<String, dynamic> json) =>
       _$PokemonModelFromJson(json);
+
+  int get pokemonNumber {
+    final splitUrl = url!.split('/')..removeLast();
+    return int.parse(splitUrl.last);
+  }
+
+  String get image {
+    if (sprites != null) {
+      return sprites!.other.officialArtwork.frontDefault;
+    }
+
+    return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$pokemonNumber.png';
+  }
 }
 
 @freezed
@@ -79,41 +95,3 @@ class TypeClass with _$TypeClass {
   factory TypeClass.fromJson(Map<String, dynamic> json) =>
       _$TypeClassFromJson(json);
 }
-
-// {
-//     "next": "",
-//     "previous": "",
-//     "count": 12,
-//     "pokemons": [
-//         {
-//             "url": "dddd",
-//             "height": 22,
-//             "id": 12,
-//             "name": "dddddd",
-//             "weight": 23,
-//             "sprites": {
-//                 "other": {
-//                     "officialArtwork": {
-//                         "frontDefault": ""
-//                     }
-//                 }
-//             },
-//             "types": [
-//                 {
-//                     "slot": 1,
-//                     "type": {
-//                         "name": ""
-//                     }
-//                 }
-//             ],
-//             "stats": [
-//                 {
-//                     "baseStat":1,
-//                     "stat": {
-//                         "name": ""
-//                     }
-//                 }
-//             ]
-//         }    
-//     ]
-// }

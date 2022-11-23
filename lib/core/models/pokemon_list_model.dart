@@ -10,7 +10,7 @@ class PokemonListModel with _$PokemonListModel {
     required int count,
     String? next,
     String? previous,
-    required List<PokemonModel> pokemons,
+    @JsonKey(name: 'results') required List<PokemonModel> pokemons,
   }) = _PokemonListModel;
 
   factory PokemonListModel.fromJson(Map<String, dynamic> json) =>

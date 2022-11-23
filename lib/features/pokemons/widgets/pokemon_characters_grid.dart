@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:pokedex/core/models/pokemon_model.dart';
 import 'package:pokedex/features/pokemons/widgets/widgets.dart';
 import 'package:pokedex/features/pokemon_details/views/pokemon_details_screen.dart';
 import 'package:pokedex/utils/utils.dart';
@@ -8,10 +9,12 @@ import 'package:flutter/material.dart';
 class PokemonCharactersGrid extends StatelessWidget {
   const PokemonCharactersGrid({
     super.key,
+    required this.pokemons,
     this.scrollController,
   });
 
   final ScrollController? scrollController;
+  final List<PokemonModel> pokemons;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,7 @@ class PokemonCharactersGrid extends StatelessWidget {
                 final cardColor =
                     randomColors[Random().nextInt(3)].withOpacity(.1);
                 return PokemonCharacterCard(
+                  pokemonModel: pokemons[index],
                   cardColor: cardColor,
                   onPokemonTapped: () {
                     Navigator.push(
@@ -42,7 +46,7 @@ class PokemonCharactersGrid extends StatelessWidget {
                   },
                 );
               },
-              childCount: 10,
+              childCount: pokemons.length,
             ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,

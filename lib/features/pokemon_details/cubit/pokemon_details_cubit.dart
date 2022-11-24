@@ -32,4 +32,15 @@ class PokemonDetailsCubit extends Cubit<PokemonDetailsState> {
       emit(state.copyWith(status: PokemonStatus.failure));
     }
   }
+
+  void favouritePokemon(bool isFavourite) {
+    final pokemon = state.pokemonModel;
+
+    emit(
+      state.copyWith(
+        status: PokemonStatus.success,
+        pokemonModel: pokemon!.copyWith(isFavourite: isFavourite),
+      ),
+    );
+  }
 }

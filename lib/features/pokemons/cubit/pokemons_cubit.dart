@@ -33,4 +33,22 @@ class PokemonsCubit extends Cubit<PokemonsState> {
       emit(state.copyWith(status: PokemonStatus.failure));
     }
   }
+
+  void updatePokemonAsFavourite(int pokemonId, bool isFavourite) {
+    final previousState = state;
+
+    emit(
+      state.copyWith(
+        status: PokemonStatus.success,
+        hasReachedMax: previousState.hasReachedMax,
+        pokemons: [
+          for (var pokemon in previousState.pokemons!)
+            if (pokemon.pokemonNumber == pokemonId)
+              pokemon.copyWith(isFavourite: isFavourite)
+            else
+              pokemon
+        ],
+      ),
+    );
+  }
 }

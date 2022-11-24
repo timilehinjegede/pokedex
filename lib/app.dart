@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/core/repository/pokemon_repository.dart';
+import 'package:pokedex/features/pokemons/cubit/pokemons_cubit.dart';
 import 'package:pokedex/splash_screen.dart';
 import 'package:pokedex/utils/utils.dart';
 
@@ -17,21 +18,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: pokemonRepository,
-      child: MaterialApp(
-        title: 'Pokedex',
-        debugShowCheckedModeBanner: false,
-        theme: pokedexTheme,
-        home: Builder(
-          builder: (context) {
-            final media = MediaQuery.of(context);
-            Dims.setSize(media);
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                textScaleFactor: 1,
-              ),
-              child: const SplashScreen(),
-            );
-          },
+      child: BlocProvider(
+        create: (context) => PokemonsCubit(pokemonRepository)..getPokemons(),
+        child: MaterialApp(
+          title: 'Pokedex',
+          debugShowCheckedModeBanner: false,
+          theme: pokedexTheme,
+          home: Builder(
+            builder: (context) {
+              final media = MediaQuery.of(context);
+              Dims.setSize(media);
+              return MediaQuery(
+                data: MediaQuery.of(context).copyWith(
+                  textScaleFactor: 1,
+                ),
+                child: const SplashScreen(),
+              );
+            },
+          ),
         ),
       ),
     );

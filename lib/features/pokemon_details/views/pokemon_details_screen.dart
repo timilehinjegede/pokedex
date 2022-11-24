@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/core/models/pokemon_model.dart';
 import 'package:pokedex/features/pokemon_details/cubit/pokemon_details_cubit.dart';
 import 'package:pokedex/features/pokemon_details/widgets/widgets.dart';
+import 'package:pokedex/features/pokemons/cubit/pokemons_cubit.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/widgets/widgets.dart';
@@ -48,18 +47,36 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: pokedexColors.white,
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: pokedexColors.primary,
-        foregroundColor: pokedexColors.white,
-        extendedTextStyle: const TextStyle(
-          fontWeight: FontWeight.w700,
-        ),
-        onPressed: () {
-          
+      floatingActionButton: Builder(
+        builder: (context) {
+          final isFavourite = context.select(
+            (PokemonDetailsCubit cubit) =>
+                cubit.state.pokemonModel?.isFavourite ?? _pokemon.isFavourite,
+          );
+
+          return FloatingActionButton.extended(
+            backgroundColor: pokedexColors.primary,
+            foregroundColor: pokedexColors.white,
+            extendedTextStyle: const TextStyle(
+              fontWeight: FontWeight.w700,
+            ),
+            onPressed: () {
+              // mark a pokemon as favourite or un favourite
+              context
+                  .read<PokemonDetailsCubit>()
+                  .favouritePokemon(!_pokemon.isFavourite);
+
+              // update the list of pokemons
+              context.read<PokemonsCubit>().updatePokemonAsFavourite(
+                    _pokemon.id!,
+                    !_pokemon.isFavourite,
+                  );
+            },
+            label: Text(
+              isFavourite ? 'Remove from favourite' : 'Mark as favourite',
+            ),
+          );
         },
-        label: const Text(
-          'Mark as favourite',
-        ),
       ),
       body: NestedScrollView(
         controller: _scrollController,
@@ -220,6 +237,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                 // update the pokemon variable
                 _pokemon = state.pokemonModel!.copyWith(
                   url: _pokemon.url,
+                  isFavourite: _pokemon.isFavourite,
                 );
 
                 return SliverList(

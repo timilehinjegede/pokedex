@@ -27,6 +27,25 @@ class PokemonModel with _$PokemonModel {
     return int.parse(splitUrl.last);
   }
 
+  // avg power - (Hp + Attack + Defense + Special Attack + Special Defense + Speed) / 6
+  int get averagePower {
+    final result = stats.fold(
+      0,
+      (previousValue, element) => previousValue + element.baseStat,
+    );
+    return result ~/ 6;
+  }
+
+  // bmi -  weight / (height^2)
+  double? get bmi {
+    if (weight != null || height != null) {
+      return weight! / (height! * height!);
+    }
+
+    return null;
+  }
+
+  // image
   String get image {
     if (sprites != null) {
       return sprites!.other.officialArtwork.frontDefault;

@@ -1,3 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex/core/models/pokemon_model.dart';
+import 'package:pokedex/features/pokemon_details/cubit/pokemon_details_cubit.dart';
 import 'package:pokedex/utils/strings.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:pokedex/widgets/network_image_widget.dart';
@@ -7,9 +10,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 class PokemonDetailsInformation extends StatefulWidget {
   const PokemonDetailsInformation({
     super.key,
+    required this.pokemon,
     required this.color,
   });
 
+  final PokemonModel pokemon;
   final Color color;
 
   @override
@@ -64,23 +69,34 @@ class _PokemonDetailsInformationState extends State<PokemonDetailsInformation>
             children: [
               const Spacer(),
               Text(
-                'Bulbasaur',
+                widget.pokemon.name,
                 style: TextStyle(
                   fontSize: 32.sp,
                   fontWeight: FontWeight.w700,
                   color: pokedexColors.text,
                 ),
               ),
-              Text(
-                'Grass, Posion',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: pokedexColors.text,
-                ),
+              BlocSelector<PokemonDetailsCubit, PokemonDetailsState, List?>(
+                selector: (state) {
+                  return state.pokemonModel?.types;
+                },
+                builder: (context, state) {
+                  if (state != null) {
+                    return Text(
+                      state.map((type) => type.type.name).join(', '),
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: pokedexColors.text,
+                      ),
+                    );
+                  }
+
+                  return const SizedBox.shrink();
+                },
               ),
               const Spacer(),
               Text(
-                '#001',
+                '#${widget.pokemon.pokemonNumber.toString().padLeft(3, '0')}',
                 style: TextStyle(
                   fontSize: 16.sp,
                   color: pokedexColors.text,
@@ -113,7 +129,7 @@ class _PokemonDetailsInformationState extends State<PokemonDetailsInformation>
                 );
               },
               child: NetworkImageWidget(
-                imageUrl: '',
+                imageUrl: widget.pokemon.image,
                 height: 140.dy,
                 width: 125.dx,
               ),
@@ -128,7 +144,10 @@ class _PokemonDetailsInformationState extends State<PokemonDetailsInformation>
 class PokemonCollapsedDetailsInformation extends StatelessWidget {
   const PokemonCollapsedDetailsInformation({
     super.key,
+    required this.pokemon,
   });
+
+  final PokemonModel pokemon;
 
   @override
   Widget build(BuildContext context) {
@@ -138,10 +157,10 @@ class PokemonCollapsedDetailsInformation extends StatelessWidget {
           padding: const EdgeInsets.only(left: 8, right: 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text(
-                '#001',
-                style: TextStyle(
+                '#${pokemon.pokemonNumber.toString().padLeft(3, '0')}',
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -151,8 +170,8 @@ class PokemonCollapsedDetailsInformation extends StatelessWidget {
         ),
         ClipRRect(
           borderRadius: BorderRadius.circular(100),
-          child: const NetworkImageWidget(
-            imageUrl: '',
+          child: NetworkImageWidget(
+            imageUrl: pokemon.image,
             height: 50,
             width: 50,
           ),

@@ -1,13 +1,21 @@
+import 'dart:developer';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex/core/models/pokemon_model.dart';
+import 'package:pokedex/features/pokemon_details/cubit/pokemon_details_cubit.dart';
 import 'package:pokedex/features/pokemon_details/widgets/widgets.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:pokedex/widgets/widgets.dart';
 
 class PokemonDetailsScreen extends StatefulWidget {
   const PokemonDetailsScreen({
     super.key,
+    required this.pokemonModel,
     required this.color,
   });
 
+  final PokemonModel pokemonModel;
   final Color color;
 
   @override
@@ -19,9 +27,12 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
   bool lastShrinkStatus = true;
   double expandedHeight = 240.dy;
 
+  late PokemonModel _pokemon;
+
   @override
   void initState() {
     super.initState();
+    _pokemon = widget.pokemonModel;
 
     _scrollController = ScrollController()..addListener(_scrollListener);
   }
@@ -43,7 +54,9 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
         extendedTextStyle: const TextStyle(
           fontWeight: FontWeight.w700,
         ),
-        onPressed: () {},
+        onPressed: () {
+          
+        },
         label: const Text(
           'Mark as favourite',
         ),
@@ -75,9 +88,9 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                 centerTitle: false,
                 collapseMode: CollapseMode.parallax,
                 title: _isShrink
-                    ? const Text(
-                        'Bulbasaur',
-                        style: TextStyle(
+                    ? Text(
+                        _pokemon.name,
+                        style: const TextStyle(
                           color: Colors.black,
                         ),
                       )
@@ -85,50 +98,73 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                 background: SafeArea(
                   child: PokemonDetailsInformation(
                     color: widget.color,
+                    pokemon: _pokemon,
                   ),
                 ),
               ),
               actions: _isShrink
                   ? [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8, right: 12),
-                        child: PokemonCollapsedDetailsInformation(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 12),
+                        child: PokemonCollapsedDetailsInformation(
+                          pokemon: _pokemon,
+                        ),
                       ),
                     ]
                   : null,
             ),
 
             // weight, height and bmi of a pokemon
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverAppBarDelegate(
-                PreferredSize(
-                  preferredSize: Size.fromHeight(75.dy),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: pokedexColors.white,
+            Builder(
+              builder: (context) {
+                final weight = context.select(
+                  (PokemonDetailsCubit c) => c.state.pokemonModel?.weight,
+                );
+                final height = context.select(
+                  (PokemonDetailsCubit c) => c.state.pokemonModel?.height,
+                );
+                final bmi = context.select(
+                  (PokemonDetailsCubit cubit) => cubit.state.pokemonModel?.bmi,
+                );
+
+                if (bmi != null) {
+                  return SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverAppBarDelegate(
+                      PreferredSize(
+                        preferredSize: Size.fromHeight(75.dy),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: pokedexColors.white,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              PokemonVitalItem(
+                                vitalName: 'Height',
+                                vitalValue: height.toString(),
+                              ),
+                              PokemonVitalItem(
+                                vitalName: 'Weight',
+                                vitalValue: weight.toString(),
+                              ),
+                              PokemonVitalItem(
+                                vitalName: 'BMI',
+                                vitalValue: bmi.toStringAsFixed(2),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        PokemonVitalItem(
-                          vitalName: 'Height',
-                          vitalValue: '23',
-                        ),
-                        PokemonVitalItem(
-                          vitalName: 'Weight',
-                          vitalValue: '45',
-                        ),
-                        PokemonVitalItem(
-                          vitalName: 'BMI',
-                          vitalValue: '2.34',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                  );
+                }
+
+                return const SliverToBoxAdapter(
+                  child: SizedBox.shrink(),
+                );
+              },
             ),
           ];
         },
@@ -160,26 +196,55 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                 height: 20.sp,
               ),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (
-                  BuildContext context,
-                  int index,
-                ) {
-                  final stats = [''];
-                  if (index == stats.length) {
-                    return const PokemonStatsTile(
-                      statName: 'Avg. Power',
-                      statValue: 56,
-                    );
-                  }
-                  return const PokemonStatsTile(
-                    statName: 'Speed Accuracy',
-                    statValue: 3,
+            BlocBuilder<PokemonDetailsCubit, PokemonDetailsState>(
+              builder: (context, state) {
+                if (state.status == PokemonStatus.loading ||
+                    state.status == PokemonStatus.initial) {
+                  return SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 250.dy,
+                      child: const LoadingIndicator(),
+                    ),
                   );
-                },
-                childCount: 5,
-              ),
+                } else if (state.status == PokemonStatus.failure) {
+                  return SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 250.dy,
+                      child: const Center(
+                        child: Text('Something went wrong'),
+                      ),
+                    ),
+                  );
+                }
+
+                // update the pokemon variable
+                _pokemon = state.pokemonModel!.copyWith(
+                  url: _pokemon.url,
+                );
+
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (
+                      BuildContext context,
+                      int index,
+                    ) {
+                      final stats = state.pokemonModel!.stats;
+
+                      if (index == stats.length) {
+                        return const PokemonStatsTile(
+                          statName: 'Avg. Power',
+                          statValue: 56,
+                        );
+                      }
+                      return PokemonStatsTile(
+                        statName: stats[index].stat.name,
+                        statValue: stats[index].baseStat,
+                      );
+                    },
+                    childCount: 5,
+                  ),
+                );
+              },
             ),
           ],
         ),

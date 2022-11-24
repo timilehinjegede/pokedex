@@ -1,6 +1,9 @@
 import 'dart:math';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/core/models/pokemon_model.dart';
+import 'package:pokedex/core/repository/pokemon_repository.dart';
+import 'package:pokedex/features/pokemon_details/cubit/pokemon_details_cubit.dart';
 import 'package:pokedex/features/pokemons/widgets/widgets.dart';
 import 'package:pokedex/features/pokemon_details/views/pokemon_details_screen.dart';
 import 'package:pokedex/utils/utils.dart';
@@ -38,8 +41,14 @@ class PokemonCharactersGrid extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => PokemonDetailsScreen(
-                          color: cardColor,
+                        builder: (_) => BlocProvider(
+                          create: (context) => PokemonDetailsCubit(
+                            context.read<PokemonRepository>(),
+                          )..getPokemonById(pokemons[index].pokemonNumber),
+                          child: PokemonDetailsScreen(
+                            pokemonModel: pokemons[index],
+                            color: cardColor,
+                          ),
                         ),
                       ),
                     );

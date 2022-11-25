@@ -140,12 +140,10 @@ class _PokemonsViewTab extends StatefulWidget {
 
 class __PokemonsViewTabState extends State<_PokemonsViewTab> {
   final ScrollController _scrollController = ScrollController();
-  final bool _isLoadingMore = false;
 
   @override
   void initState() {
     super.initState();
-
     _scrollController.addListener(_onScroll);
   }
 
@@ -162,15 +160,19 @@ class __PokemonsViewTabState extends State<_PokemonsViewTab> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
     final hasReachedBottom = currentScroll == maxScroll;
-    if (hasReachedBottom) {}
+    if (hasReachedBottom) {
+      context.read<PokemonsCubit>().loadMorePokemons();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PokemonsCubit, PokemonsState>(
       builder: (context, state) {
-        if (state.status == PokemonStatus.loading ||
-            state.status == PokemonStatus.initial) {
+        final isLoadingOrInitial = state.status == PokemonStatus.loading ||
+            state.status == PokemonStatus.initial;
+
+        if (state.pokemons == null && isLoadingOrInitial) {
           return const Center(
             child: LoadingIndicator(),
           );
@@ -195,7 +197,7 @@ class __PokemonsViewTabState extends State<_PokemonsViewTab> {
                 ],
               ),
             ),
-            if (_isLoadingMore)
+            if (state.status == PokemonStatus.loading && state.pokemons != null)
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.dy),
                 child: const Align(

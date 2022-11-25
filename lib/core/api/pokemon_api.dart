@@ -6,11 +6,20 @@ import 'package:pokedex/core/models/pokemon_model.dart';
 import 'package:http/http.dart' as http;
 
 class PokemonApi {
-  Future<PokemonListModel> getPokemons() async {
+  Future<PokemonListModel> getPokemons({
+    required int page,
+    required int limit,
+  }) async {
     final allPokemonsUrl = Uri.https(
       'pokeapi.co',
       'api/v2/pokemon',
+      {
+        'limit': '$limit',
+        'offset': '${limit * page}',
+      },
     );
+
+    log('url is ${allPokemonsUrl.toString()}');
 
     try {
       var response = await http.get(allPokemonsUrl);

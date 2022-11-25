@@ -7,8 +7,14 @@ class PokemonRepository {
 
   final PokemonApi pokemonApi;
 
-  Future<PokemonListModel> getPokemons() async {
-    return pokemonApi.getPokemons();
+  Future<PokemonListModel> getPokemons({
+    required int page,
+    required int limit,
+  }) async {
+    return pokemonApi.getPokemons(
+      page: page,
+      limit: limit,
+    );
   }
 
   Future<PokemonModel> getPokemonById(int id) async {

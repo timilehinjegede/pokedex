@@ -15,16 +15,49 @@ class PokemonsCubit extends Cubit<PokemonsState> {
 
   final PokemonRepository pokemonRepository;
 
+  // number of items to fetch per page from the api
+  final limit = 20;
+
   Future<void> getPokemons() async {
     emit(state.copyWith(status: PokemonStatus.loading));
 
     try {
-      final pokemonList = await pokemonRepository.getPokemons();
+      final pokemonList = await pokemonRepository.getPokemons(
+        page: 0,
+        limit: limit,
+      );
 
       emit(
         state.copyWith(
           status: PokemonStatus.success,
           pokemons: pokemonList.pokemons,
+          hasReachedMax: pokemonList.next != null,
+        ),
+      );
+    } catch (e) {
+      addError(e.toString(), StackTrace.current);
+      emit(state.copyWith(status: PokemonStatus.failure));
+    }
+  }
+
+  Future<void> loadMorePokemons() async {
+    final previousState = state;
+
+    emit(state.copyWith(status: PokemonStatus.loading));
+
+    try {
+      final pokemonList = await pokemonRepository.getPokemons(
+        page: previousState.pokemons!.length ~/ limit,
+        limit: limit,
+      );
+
+      emit(
+        state.copyWith(
+          status: PokemonStatus.success,
+          pokemons: [
+            ...previousState.pokemons!,
+            ...pokemonList.pokemons,
+          ],
           hasReachedMax: pokemonList.next != null,
         ),
       );

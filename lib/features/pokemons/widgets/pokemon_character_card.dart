@@ -1,5 +1,4 @@
 import 'package:pokedex/core/models/pokemon_model.dart';
-import 'package:pokedex/utils/strings.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:pokedex/widgets/network_image_widget.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +59,7 @@ class PokemonCharacterCard extends StatelessWidget {
                   ),
                   YBox(2.dy),
                   Text(
-                    pokemonModel.name,
+                    pokemonModel.name.capitalize,
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,

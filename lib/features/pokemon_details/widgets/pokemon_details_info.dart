@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/core/models/pokemon_model.dart';
 import 'package:pokedex/features/pokemon_details/cubit/pokemon_details_cubit.dart';
-import 'package:pokedex/utils/strings.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:pokedex/widgets/network_image_widget.dart';
 import 'package:flutter/material.dart';
@@ -69,21 +68,22 @@ class _PokemonDetailsInformationState extends State<PokemonDetailsInformation>
             children: [
               const Spacer(),
               Text(
-                widget.pokemon.name,
+                widget.pokemon.name.capitalize,
                 style: TextStyle(
                   fontSize: 32.sp,
                   fontWeight: FontWeight.w700,
                   color: pokedexColors.text,
                 ),
               ),
-              BlocSelector<PokemonDetailsCubit, PokemonDetailsState, List?>(
+              BlocSelector<PokemonDetailsCubit, PokemonDetailsState,
+                  List<Type>?>(
                 selector: (state) {
                   return state.pokemonModel?.types;
                 },
                 builder: (context, state) {
                   if (state != null) {
                     return Text(
-                      state.map((type) => type.type.name).join(', '),
+                      state.map((type) => type.type.name.capitalize).join(', '),
                       style: TextStyle(
                         fontSize: 16.sp,
                         color: pokedexColors.text,

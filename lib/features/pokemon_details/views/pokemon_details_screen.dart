@@ -106,7 +106,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                 collapseMode: CollapseMode.parallax,
                 title: _isShrink
                     ? Text(
-                        _pokemon.name,
+                        _pokemon.name.capitalize,
                         style: const TextStyle(
                           color: Colors.black,
                         ),
@@ -255,7 +255,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                         );
                       }
                       return PokemonStatsTile(
-                        statName: stats[index].stat.name,
+                        statName: stats[index].stat.name.splitAndCapitalize('-'),
                         statValue: stats[index].baseStat,
                       );
                     },
